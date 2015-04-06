@@ -25,6 +25,7 @@ module Toshi::Models
       end
 
       it { is_expected.to change { Toshi.db[:unconfirmed_addresses_outputs].count }.by(-1) }
+      it { is_expected.to change { Toshi.db[:unconfirmed_ledger_entries].count }.by(-1) }
       it { is_expected.to change { UnconfirmedAddress.count }.by(-1) }
       it { is_expected.to change { UnconfirmedOutput.count }.by(-1) }
       it { is_expected.to change { UnconfirmedInput.count }.by(-1) }
