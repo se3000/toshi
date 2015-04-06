@@ -96,3 +96,9 @@ task :cache_totals do
     Toshi.db.run(query)
   end
 end
+
+task :remove_unconfirmed_records do
+  Toshi.db = Sequel.connect(Toshi.settings[:database_url])
+
+  Toshi::Models::UnconfirmedTransaction.remove_all
+end
