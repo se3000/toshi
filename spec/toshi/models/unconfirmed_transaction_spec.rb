@@ -15,6 +15,13 @@ module Toshi::Models
         outputs = [output]
         addresses = [[address.address]]
         UnconfirmedTransaction.upsert_output_addresses(tx.id, outputs, outputs.map(&:id), addresses)
+
+        blockchain = Blockchain.new
+        processor = Toshi::Processor.new
+        blockchain.load_from_json("simple_chain_1.json")
+        blockchain.chain['main'].each{|height, block|
+          processor.process_block(block, raise_errors=true)
+        }
       end
 
       it { is_expected.to change { Toshi.db[:unconfirmed_addresses_outputs].count }.by(-1) }
@@ -23,6 +30,14 @@ module Toshi::Models
       it { is_expected.to change { UnconfirmedInput.count }.by(-1) }
       it { is_expected.to change { UnconfirmedTransaction.count }.by(-1) }
       it { is_expected.to change { UnconfirmedRawTransaction.count }.by(-1) }
+
+      it { is_expected.not_to change { Output.count } }
+      it { is_expected.not_to change { Input.count } }
+      it { is_expected.not_to change { Address.count } }
+      it { is_expected.not_to change { Transaction.count } }
+      it { is_expected.not_to change { RawTransaction.count } }
+      it { is_expected.not_to change { Block.count } }
+      it { is_expected.not_to change { RawBlock.count } }
     end
   end
 end
