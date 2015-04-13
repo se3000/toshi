@@ -6,11 +6,11 @@ module Toshi::Models
       subject { lambda { UnconfirmedTransaction.remove_all } }
 
       before do
-        raw_tx = UnconfirmedRawTransaction.create(hsh: fake_hash)
+        raw_tx = UnconfirmedRawTransaction.create(hsh: SecureRandom.hex(32))
         tx = UnconfirmedTransaction.create(hsh: raw_tx.hsh)
-        address = UnconfirmedAddress.create(address: testnet_address)
-        output = UnconfirmedOutput.create(hsh: fake_hash, amount: 1e8, script: 'script')
-        UnconfirmedInput.create(hsh: fake_hash, index: 0, prev_out: output.hsh)
+        address = UnconfirmedAddress.create(address: Bitcoin::Key.generate.addr)
+        output = UnconfirmedOutput.create(hsh: SecureRandom.hex(32), amount: 1e8, script: 'script')
+        UnconfirmedInput.create(hsh: SecureRandom.hex(32), index: 0, prev_out: output.hsh)
 
         outputs = [output]
         addresses = [[address.address]]
