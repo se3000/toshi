@@ -51,6 +51,11 @@ namespace :db do
   task dump: [:set_pg_password] do
     sh "pg_dump -Fc --no-acl --no-owner #{sys_db_args} #{db_name} > latest.dump"
   end
+
+  desc "Restore database from a past dump"
+  task :restore do
+    sh "pg_restore --verbose --clean --no-acl --no-owner #{sys_db_args} -d #{db_name} latest.dump"
+  end
 end
 
 task :redis_local do
