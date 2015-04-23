@@ -9,6 +9,7 @@ GEM
   remote: https://rubygems.org/
   specs:
     backports (3.6.0)
+    bencode (0.8.2)
     bugsnag (2.2.2)
       httparty (>= 0.6, < 1.0)
       multi_json (~> 1.0)
@@ -41,6 +42,9 @@ GEM
       multi_xml (>= 0.5.2)
     json (1.8.1)
     lspace (0.13)
+    mktorrent (1.2.0)
+      bencode (~> 0.8)
+      rake (~> 10.1)
     multi_json (1.10.1)
     multi_xml (0.5.5)
     newrelic_rpm (3.9.4.245)
@@ -110,6 +114,7 @@ DEPENDENCIES
   faye-websocket
   ffi
   foreman
+  mktorrent
   newrelic_rpm
   pg
   puma

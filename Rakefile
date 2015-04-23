@@ -1,4 +1,5 @@
 require_relative 'config/application'
+require 'mktorrent'
 
 task :bundle do
   sh 'bundle install --path  .bundle'
@@ -119,4 +120,12 @@ task :cache_totals do
                     where addresses.id = o.addr_id"
     Toshi.db.run(query)
   end
+end
+
+task :create_torrent do
+  torrent = Torrent.new("udp://tracker.openbittorrent.com:80/announce")
+  torrent.piecelength = 131072
+  torrent.add_file("Social\ Life\ of\ Small\ Urban\ Places\ -\ William\ H\ Whyte-p_bWklhjvWc.mp4")
+  torrent.defaultdir = 'toshi dump'
+  torrent.write_torrent("toshiDump.torrent")
 end
